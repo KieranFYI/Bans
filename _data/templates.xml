@@ -1,0 +1,695 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+  <template type="admin" title="kieran_bans_types" version_id="1000030" version_string="1.0.0 Beta"><![CDATA[<xf:title>{{ phrase('kieran_bans_types') }}</xf:title>
+
+<xf:pageaction>
+	<xf:button href="{{ link('bans/types/add') }}" icon="add">{{ phrase('kieran_bans_types_add') }}</xf:button>
+</xf:pageaction>
+
+<xf:if is="$types is not empty">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:datalist>
+				<xf:foreach loop="$types" value="$type">
+					<xf:datarow rowtype="subsection">
+						<xf:cell href="{{ link('bans/types/edit', $type) }}">{$type.name}</xf:cell>
+						<xf:delete href="{{link('bans/types/delete', $type)}}" />
+					</xf:datarow>
+				</xf:foreach>
+			</xf:datalist>
+		</div>
+	</div>
+<xf:else />
+	<div class="blockMessage">{{ phrase('no_items_have_been_created_yet') }}</div>
+</xf:if>]]></template>
+  <template type="admin" title="kieran_bans_types_edit" version_id="1000030" version_string="1.0.0 Beta"><![CDATA[<xf:if is="$type.isInsert()">
+	<xf:title>{{ phrase('kieran_bans_types_add') }}</xf:title>
+<xf:else />
+	<xf:title>{{ phrase('kieran_bans_types_edit:') }} {$type.name}</xf:title>
+	
+	<xf:pageaction>
+		<xf:button href="{{ link('bans/types/delete', $type) }}" icon="delete">{{ phrase('delete') }}</xf:button>
+	</xf:pageaction>
+
+</xf:if>
+
+<xf:if is="$success">
+	<div class="blockMessage blockMessage--success blockMessage--iconic">{{ phrase('redirect_changes_saved_successfully') }}</div>
+</xf:if>
+
+<div class="block">
+	<xf:form action="{{ link('bans/types/save', $type) }}" ajax="true" class="block-container" novalidate="novalidate">
+		<div class="block-body">
+			
+			<xf:textboxrow name="type_id" value="{$type.type_id}"
+				maxlength="{{ max_length($type, 'type_id') }}"
+				label="{{ phrase('kieran_bans_type_id') }}" />
+			
+			<xf:textboxrow name="name" value="{$type.name}"
+				maxlength="{{ max_length($type, 'name') }}"
+				label="{{ phrase('name') }}" />
+
+		</div>
+		
+		<xf:submitrow icon="save" sticky="true" />
+	</xf:form>
+</div>]]></template>
+  <template type="public" title="kieran_bans_appeal" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[<xf:title>{{ phrase('kieran_bans_appeal:') }} #{{ $ban.ban_id }}</xf:title>
+<xf:breadcrumb href="{{ link('bans') }}">{{ phrase('kieran_bans_bans') }}</xf:breadcrumb>
+<xf:breadcrumb href="{{ link('bans/appeal') }}">{{ phrase('kieran_bans_appeal:') }} #{{ $ban.ban_id }}</xf:breadcrumb>
+
+<div class="block">
+	<xf:form action="{{ link('/support/tickets/create') }}" ajax="true" class="block-container" novalidate="novalidate">
+		<div class="block-body">
+			
+			<xf:hiddenval name="type">{{ $type.type_id }}</xf:hiddenval>
+			<xf:hiddenval name="ticket_title">Ban #{{ $ban.ban_id }} appeal</xf:hiddenval>
+			
+			<xf:macro template="kieran_support_ticket_create_macro" name="body"
+					  arg-attachmentData="{$attachmentData}"
+					  arg-messageSelector=".js-message"
+					  arg-submitText="{{ phrase('kieran_bans_appeal') }}"/>
+
+			<xf:hiddenval name="apply">1</xf:hiddenval>
+				
+		</div>
+	</xf:form>
+</div>]]></template>
+  <template type="public" title="kieran_bans_created" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[<xf:title>{{ phrase('kieran_bans_created') }}</xf:title>
+<xf:description>A list of all your created bans</xf:description>
+
+<xf:wrap template="kieran_bans_wrapper">
+	<xf:set var="$pageSelected" value="created" />
+</xf:wrap>
+
+<xf:breadcrumb href="{{ link('bans') }}">{{ phrase('kieran_bans_bans') }}</xf:breadcrumb>
+<xf:breadcrumb href="{{ link('bans/created') }}">{{ phrase('kieran_bans_created') }}</xf:breadcrumb>
+
+<xf:if is="($total / $perPage) >= 1">
+	<div class="block-outer">
+		<xf:trim>
+			<xf:pagenav page="{$page}" perpage="{$perPage}" total="{$total}"
+						link="bans/created" data="null" params="{$filters}"
+						wrapperclass="block-outer-main" />
+		</xf:trim>
+	</div>
+</xf:if>
+
+<xf:macro template="kieran_bans_list" name="kieran_bans_list" 
+		  arg-bans="{$bans}" 
+		  arg-approvalStatus="{{ true }}"
+		  arg-links="{{ true }}"  />]]></template>
+  <template type="public" title="kieran_bans_edit" version_id="1000030" version_string="1.0.0 Beta"><![CDATA[<xf:breadcrumb href="{{ link('bans') }}">{{ phrase('kieran_bans_bans') }}</xf:breadcrumb>
+
+<xf:if is="$ban.isInsert()">
+	<xf:title>{{ phrase('kieran_bans_create') }}</xf:title>
+	<xf:breadcrumb href="{{ link('bans/create') }}">{{ phrase('kieran_bans_create') }}</xf:breadcrumb>
+	
+<xf:else />
+	<xf:title>{{ phrase('kieran_bans_edit:') }} #{{ $ban.ban_id }}</xf:title>
+	<xf:breadcrumb href="{{ link('bans/edit', $ban) }}">{{ phrase('kieran_bans_edit:') }} #{{ $ban.ban_id }}</xf:breadcrumb>
+	
+	<xf:wrap template="kieran_bans_wrapper">
+		<xf:set var="$pageSelected" value="create" />
+	</xf:wrap>
+</xf:if>
+
+<xf:if is="$success">
+	<div class="blockMessage blockMessage--success blockMessage--iconic">{{ phrase('redirect_changes_saved_successfully') }}</div>
+</xf:if>
+
+<div class="block">
+	<xf:form action="{{ link('bans/save', $ban) }}" ajax="true" class="block-container" novalidate="novalidate">
+		<div class="block-body">
+
+			<xf:textboxrow name="ban[target_name]" value="{$ban.target_name}"
+				maxlength="{{ max_length($ban, 'target_name') }}"
+				label="{{ phrase('kieran_bans_target_name') }}" />
+
+			<xf:textboxrow name="ban[target_id]" value="{$ban.target_id}"
+				label="{{ phrase('kieran_bans_target_uid') }}"
+				hint="{{ phrase('kieran_bans_uid_hint')}}" />
+
+			<xf:textboxrow name="ban[target_ip]" value="{$ban.target_ip}"
+				maxlength="{{ max_length($ban, 'target_ip') }}"
+				label="{{ phrase('kieran_bans_target_ip') }}" />
+
+			<xf:textboxrow name="ban[ban_reason]" value="{$ban.ban_reason}"
+				maxlength="{{ max_length($ban, 'ban_reason') }}"
+				label="{{ phrase('kieran_bans_reason') }}" />
+			
+			<xf:selectrow name="ban[type_id]"
+				label="{{ phrase('kieran_bans_type')}}">
+				<xf:foreach loop="$types" key="$key" value="$type">
+					<xf:option value="{$key}" selected="{{ $ban.type_id == $type.type_id }}">{{ $type.name }}</xf:option>
+				</xf:foreach>
+			</xf:selectrow>
+			
+			<xf:selectrow name="ban[ban_length]"
+				label="{{ phrase('kieran_bans_length')}}">
+				<xf:foreach loop="$times" value="$length">
+					<xf:option value="{$length.time}" selected="{{ $ban.ban_length == $length.time && !$ban.isInsert() }}">{{ $length.label }}</xf:option>
+				</xf:foreach>
+			</xf:selectrow>
+
+			<xf:if is="$ban.isInsert()">
+				<xf:macro template="kieran_bans_macro" name="body"
+						  arg-attachmentData="{$attachmentData}"
+						  arg-messageSelector=".js-message"
+						  arg-submitText="{{ phrase('save') }}"/>
+			<xf:else />
+				<xf:submitrow icon="save" sticky="true" />
+			</xf:if>
+				
+		</div>
+	</xf:form>
+</div>]]></template>
+  <template type="public" title="kieran_bans_filters" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[<xf:form action="{{ link('bans/filters') }}">
+	
+	<div class="menu-row menu-row--separated">
+		{{ phrase('banned_uid:') }}
+		<div class="u-inputSpacer">
+			<xf:textbox name="banned_uid" value="{{ $filters.banned_uid }}" />
+		</div>
+	</div>
+	
+	<div class="menu-row menu-row--separated">
+		{{ phrase('banned_ip:') }}
+		<div class="u-inputSpacer">
+			<xf:textbox name="banned_ip" value="{{ $filters.banned_ip }}" />
+		</div>
+	</div>
+	
+	
+	<div class="menu-row menu-row--separated">
+		{{ phrase('admin:') }}
+		<div class="u-inputSpacer">
+			<xf:textbox name="ply_user" value="{{ $adminFilter ? $adminFilter.username : '' }}" ac="single"
+				maxlength="{{ max_length($xf.visitor, 'username') }}" />
+		</div>
+	</div>
+	
+	<div class="menu-row menu-row--separated">
+		{{ phrase('status:') }}
+		<xf:select name="status[]" size="2" multiple="multiple">
+				<xf:option />
+			<xf:foreach loop="$statuses" key="$key" value="$status">
+				<xf:option value="{$key}">{{ $status }}</xf:option>
+			</xf:foreach>
+		</xf:select>
+	</div>
+
+	<div class="menu-row menu-row--separated">
+		{{ phrase('type:') }}
+		<xf:select name="type[]" size="2" multiple="multiple" value="">
+			<xf:option />
+			<xf:foreach loop="$types" key="$key" value="$type">
+				<xf:option value="{$key}">{{ $type }}</xf:option>
+			</xf:foreach>
+		</xf:select>
+	</div>
+	
+	<div class="menu-row menu-row--separated">
+		{{ phrase('created_between:') }}
+		<div class="u-inputSpacer">
+			<xf:dateinput name="date[start]" value="{$filters.date.start}" size="15" />
+		</div>
+		<div class="u-inputSpacer">
+			<xf:dateinput name="date[end]" value="{$filters.date.end}" size="15" />
+		</div>
+	</div>
+	
+	<div class="menu-row menu-row--separated">
+		{{ phrase('sort_by:') }}
+		<div class="inputGroup u-inputSpacer">
+			<xf:select name="order" value="{{ $filters.order ?: 'ticket_date' }}">
+				<xf:option value="ban_review">{{ phrase('kieran_bans_review') }}</xf:option>
+				<xf:option value="timestamp">{{ phrase('created') }}</xf:option>
+				<xf:option value="ban_type">{{ phrase('ban_type') }}</xf:option>
+			</xf:select>
+			<span class="inputGroup-splitter"></span>
+			<xf:select name="direction" value="{{ $filters.direction ?: 'asc' }}">
+				<xf:option value="desc">{{ phrase('descending') }}</xf:option>
+				<xf:option value="asc">{{ phrase('ascending') }}</xf:option>
+			</xf:select>
+		</div>
+	</div>
+	
+	<div class="menu-footer">
+		<span class="menu-footer-controls">
+			<xf:button type="submit" class="button--primary">{{ phrase('filter') }}</xf:button>
+		</span>
+	</div>
+	<xf:hiddenval name="apply">1</xf:hiddenval>
+</xf:form>]]></template>
+  <template type="public" title="kieran_bans_list" version_id="1000030" version_string="1.0.0 Beta"><![CDATA[<xf:macro name="kieran_bans_list"
+	arg-bans="!"
+	arg-bannedBy="{{ false }}"
+	arg-approvalStatus="{{ false }}"
+	arg-appeal="{{ false }}" 
+	arg-filters="{{ false }}" 
+	arg-links="{{ false }}" >
+	<div class="block">
+		<div class="block-container">
+			<xf:if is="$filters !== false">
+				<div class="block-filterBar">
+					<div class="filterBar">
+						<a class="filterBar-menuTrigger" data-xf-click="menu" role="button" tabindex="0" aria-expanded="false" aria-haspopup="true">{{ phrase('filters') }}</a>
+						<div class="menu menu--wide" data-menu="menu" aria-hidden="true"
+							 data-href="{{ link('bans/filters', null, $filters) }}"
+							 data-load-target=".js-filterMenuBody">
+							<div class="menu-content">
+								<h4 class="menu-header">{{ phrase('show_only:') }}</h4>
+								<div class="js-filterMenuBody">
+									<div class="menu-row">{{ phrase('loading...') }}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</xf:if>
+			<div class="block-body">
+				<xf:datalist data-xf-init="responsive-data-list">
+					<xf:if is="$xf.visitor.user_id">
+						<xf:if is="$bans is not empty">
+							<xf:datarow rowtype="header">
+								<xf:if is="$approvalStatus">
+									<xf:cell></xf:cell>
+								</xf:if>
+								<xf:cell>Type</xf:cell>
+								<xf:cell>Name</xf:cell>
+								<xf:cell>Reason</xf:cell>
+								<xf:cell>Remaining</xf:cell>
+								<xf:if is="$bannedBy">
+									<xf:cell>Banned by</xf:cell>
+								</xf:if>
+								<xf:if is="$appeal">
+									<xf:cell></xf:cell>
+								</xf:if>
+							</xf:datarow>
+							<xf:foreach loop="$bans" value="$ban">
+								<xf:datarow rowclass="dataList-row">
+									<xf:if is="$approvalStatus">	
+										<xf:cell class="dataList-cell--min dataList-cell--alt">
+											<i class="fa fa-{$ban.status_icon}" aria-hidden="true"></i>
+										</xf:cell>
+									</xf:if>
+									<xf:cell href="{{ $links ? link('bans', $ban) : '' }}">{$ban.Type.name}</xf:cell>
+									<xf:main href="{{ $links ? link('bans', $ban) : '' }}" label="{$ban.target_name}" hint="{$ban.steamid32}" />
+									<xf:cell href="{{ $links ? link('bans', $ban) : '' }}">{$ban.ban_reason}</xf:cell>
+									<xf:cell href="{{ $links ? link('bans', $ban) : '' }}" class="contentRow-minor">{$ban.remaining}</xf:cell>
+									<xf:if is="$bannedBy">
+										<xf:cell class="contentRow"><xf:username user="$ban.created_by" rich="true" /></xf:cell>
+									</xf:if>
+									<xf:if is="$appeal">	
+										<xf:cell class="dataList-cell--min dataList-cell--alt">
+											<xf:if is="$ban.remaining_time >= 0">
+												<xf:button class="button" href="{{ link('bans/appeal', $ban) }}">{{ phrase('kieran_bans_appeal') }}</xf:button>
+											</xf:if>
+										</xf:cell>
+									</xf:if>
+								</xf:datarow>
+							</xf:foreach>
+						<xf:else />
+							<xf:datarow rowclass="dataList-row--noHover">
+								<xf:cell class="dataList-cell--min dataList-cell--alt">
+									<i class="fa fa-info-circle" aria-hidden="true"></i>
+								</xf:cell>
+								<xf:main colspan="3" label="No bans available." />
+							</xf:datarow>
+						</xf:if>
+					<xf:else />
+						<xf:datarow rowclass="dataList-row--noHover">
+							<xf:cell class="dataList-cell--min dataList-cell--alt">
+								<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+							</xf:cell>
+							<xf:main colspan="3" label="You must be registered and logged in to view bans." />
+						</xf:datarow>
+					</xf:if>
+				</xf:datalist>
+			</div>
+		</div>
+	</div>
+</xf:macro>]]></template>
+  <template type="public" title="kieran_bans_macro" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[<xf:macro name="body"
+	arg-message=""
+	arg-attachmentData="{{ null }}"
+	arg-forceHash=""
+	arg-messageSelector=""
+	arg-submitText="">
+
+	<xf:js src="xf/message.js" min="1" />
+	<xf:css src="message.less" />
+
+	<dl class="formRow formRow--input">
+		<dt>
+			<div class="formRow-labelWrapper">
+				<label class="formRow-label">{{ phrase('note') }}</label>
+			</div>
+		</dt>
+		<dd>
+			<xf:editor name="message"
+					   value="{$message}"
+					   attachments="{{ $attachmentData ? $attachmentData.attachments : [] }}"
+					   data-min-height="150"/>
+
+			<xf:if is="$attachmentData">
+				<xf:macro template="helper_attach_upload" name="uploaded_files_list"
+						  arg-attachments="{$attachmentData.attachments}"
+						  arg-listClass="attachUploadList--spaced" />
+			</xf:if>
+
+			<div class="formButtonGroup">
+				<div class="formButtonGroup-primary">
+					<xf:button type="submit" class="button--primary">
+						{{ $submitText ?: phrase('post_reply') }}
+					</xf:button>
+				</div>
+				<xf:if contentcheck="true">
+					<div class="formButtonGroup-extra">
+						<xf:contentcheck>
+							<xf:if is="$attachmentData">
+								<xf:macro template="helper_attach_upload" name="upload_link_from_data"
+										  arg-attachmentData="{$attachmentData}"
+										  arg-forceHash="{$forceHash}" />
+							</xf:if>
+						</xf:contentcheck>
+					</div>
+				</xf:if>
+			</div>
+		</dd>
+	</dl>
+</xf:macro>
+
+<xf:macro name="reply"
+	arg-message=""
+	arg-attachmentData="{{ null }}"
+	arg-forceHash=""
+	arg-messageSelector=""
+	arg-submitText=""
+	arg-canManage="{{ false }}">
+
+	<xf:js src="xf/message.js" min="1" />
+	<xf:css src="message.less" />
+
+	<div class="message message--quickReply block-topRadiusContent block-bottomRadiusContent{{ $simple ? ' message--simple' : '' }}">
+		<div class="message-inner">
+			<div class="message-cell message-cell--user">
+				<div class="message-user {{ $sticky.user_info ? 'is-sticky' : '' }}">
+					<div class="message-avatar">
+						<div class="message-avatar-wrapper">
+							<xf:set var="$user" value="{{ $xf.visitor.user_id ? $xf.visitor : null }}" />
+							<xf:avatar user="$user" size="{{ $simple ? 's' : 'm' }}" defaultname="" />
+						</div>
+					</div>
+					<span class="message-userArrow"></span>
+				</div>
+			</div>
+			<div class="message-cell message-cell--main">
+				<div class="message-editorWrapper">
+	
+					<xf:if is="$canManage">
+						<xf:checkbox >
+							<xf:option name="leadership" value="1" label="{{ phrase('kieran_bans_leadership_only') }}"/>
+						</xf:checkbox>
+					</xf:if>
+					
+					<xf:editor name="message"
+							   value="{$message}"
+							   attachments="{{ $attachmentData ? $attachmentData.attachments : [] }}"
+							   data-min-height="150"/>
+
+					<xf:if is="$attachmentData">
+						<xf:macro template="helper_attach_upload" name="uploaded_files_list"
+								  arg-attachments="{$attachmentData.attachments}"
+								  arg-listClass="attachUploadList--spaced" />
+					</xf:if>
+
+					<div class="formButtonGroup">
+						<div class="formButtonGroup-primary">
+							<xf:button type="submit" class="button--primary">
+								{{ $submitText ?: phrase('post_reply') }}
+							</xf:button>
+						</div>
+						<xf:if contentcheck="true">
+							<div class="formButtonGroup-extra">
+								<xf:contentcheck>
+									<xf:if is="$attachmentData">
+										<xf:macro template="helper_attach_upload" name="upload_link_from_data"
+												  arg-attachmentData="{$attachmentData}"
+												  arg-forceHash="{$forceHash}" />
+									</xf:if>
+								</xf:contentcheck>
+							</div>
+						</xf:if>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</xf:macro>]]></template>
+  <template type="public" title="kieran_bans_manage" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[<xf:title>{{ phrase('kieran_bans_bans') }}</xf:title>
+<xf:description>A list of all bans</xf:description>
+
+<xf:wrap template="kieran_bans_wrapper">
+	<xf:set var="$pageSelected" value="manage" />
+</xf:wrap>
+
+<xf:breadcrumb href="{{ link('bans') }}">{{ phrase('kieran_bans_bans') }}</xf:breadcrumb>
+<xf:breadcrumb href="{{ link('bans/manage') }}">{{ phrase('kieran_bans_manage') }}</xf:breadcrumb>
+
+<xf:if is="($total / $perPage) >= 1">
+	<div class="block-outer">
+		<xf:trim>
+			<xf:pagenav page="{$page}" perpage="{$perPage}" total="{$total}"
+						link="bans/manage" data="null" params="{$filters}"
+						wrapperclass="block-outer-main" />
+		</xf:trim>
+	</div>
+</xf:if>
+
+<xf:macro template="kieran_bans_list" 
+		  name="kieran_bans_list" 
+		  arg-bans="{$bans}" 
+		  arg-bannedBy="{{ true }}" 
+		  arg-approvalStatus="{{ true }}"
+		  arg-filters="{$filters}"
+		  arg-links="{{ true }}" />]]></template>
+  <template type="public" title="kieran_bans_mybans" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[<xf:title>{{ phrase('kieran_bans_mybans') }}</xf:title>
+<xf:description>A list of all your bans</xf:description>
+
+<xf:wrap template="kieran_bans_wrapper">
+	<xf:set var="$pageSelected" value="mybans" />
+</xf:wrap>
+
+<xf:breadcrumb href="{{ link('bans') }}">{{ phrase('kieran_bans_mybans') }}</xf:breadcrumb>
+
+<xf:macro template="kieran_bans_list" name="kieran_bans_list" arg-bans="{$bans}" arg-appeal="{{ true }}" />]]></template>
+  <template type="public" title="kieran_bans_review" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[<xf:title>{{ phrase('kieran_bans_review:') }} #{{ $ban.ban_id }}</xf:title>
+<xf:breadcrumb href="{{ link('bans') }}">{{ phrase('kieran_bans_bans') }}</xf:breadcrumb>
+<xf:breadcrumb href="{{ link('bans/review', $ban) }}">{{ phrase('kieran_bans_review:') }} #{{ $ban.ban_id }}</xf:breadcrumb>
+
+<xf:wrap template="kieran_bans_wrapper">
+	<xf:set var="$pageSelected" value="create" />
+</xf:wrap>
+
+<div class="block">
+	<xf:form action="{{ link('bans/review', $ban) }}" ajax="true" class="block-container" novalidate="novalidate">
+		<div class="block-body">
+			<xf:selectrow name="ban_review"
+						  label="{{ phrase('kieran_bans_review')}}">
+				<xf:foreach loop="$statuses" key="$key" value="$name">
+					<xf:option value="{$key}" selected="{{ $key == $ban.ban_review }}">{{ $name }}</xf:option>
+				</xf:foreach>
+			</xf:selectrow>
+			<xf:hiddenval name="apply">1</xf:hiddenval>
+			
+			<xf:macro template="kieran_bans_macro" name="body"
+					  arg-attachmentData="{$attachmentData}"
+					  arg-messageSelector=".js-message"
+					  arg-submitText="{{ phrase('save') }}"/>
+				
+		</div>
+	</xf:form>
+</div>]]></template>
+  <template type="public" title="kieran_bans_view" version_id="1000030" version_string="1.0.0 Beta"><![CDATA[<xf:css src="kieran_bans_view.less" />
+<xf:css src="message.less" />
+<xf:js src="xf/message.js" min="1" />
+
+<xf:title>{{ phrase('kieran_bans_viewing:') }} #{$ban.ban_id}</xf:title>
+
+<xf:wrap template="kieran_bans_wrapper">
+	<xf:set var="$pageSelected" value="view" />
+</xf:wrap>
+
+<xf:pageaction>
+	<xf:if is="$canManage && $ban.remaining_time != -2">
+		<xf:if is="$ban.ban_status">
+			<xf:button class="button button--green" href="{{ link('bans/reinstate', $ban) }}" icon="gavel">{{ phrase('reinstate') }}</xf:button>
+		<xf:else />
+			<xf:button class="button button--green" href="{{ link('bans/lift', $ban) }}" icon="magic">{{ phrase('lift') }}</xf:button>
+			<xf:button class="button" ajax="true" href="{{ link('bans/edit', $ban) }}" icon="edit">{{ phrase('edit') }}</xf:button>
+			<xf:button class="button" href="{{ link('bans/review', $ban) }}" icon="eye">{{ phrase('review') }}</xf:button>
+		</xf:if>
+	</xf:if>
+	<xf:if is="$canCreate">
+		<xf:button class="button button--cta" href="{{ link('bans/create') }}" icon="write">{{ phrase('kieran_bans_create') }}</xf:button>
+	</xf:if>
+</xf:pageaction>
+
+<xf:breadcrumb href="{{ link('bans') }}">{{ phrase('kieran_bans_bans') }}</xf:breadcrumb>
+<xf:breadcrumb href="{{ link('bans/view', $ban) }}">{{ phrase('kieran_bans_viewing:') }} #{$ban.ban_id}</xf:breadcrumb>
+
+<div class="blockMessage">
+	<div class="pairJustifier">
+		<dl class="pairs pairs--rows">
+			<dt>{{ phrase('kieran_bans_review') }}</dt>
+			<dd>{$ban.status}</dd>
+		</dl>
+		<dl class="pairs pairs--rows">
+			<dt>{{ phrase('banned_uid') }}</dt>
+			<dd><a href="http://steamcommunity.com/profiles/{$ban.target_id}">{$ban.steamid32}</a></dd>
+		</dl>
+		<dl class="pairs pairs--rows">
+			<dt>{{ phrase('banned_ip') }}</dt>
+			<dd>{$ban.target_ip}</dd>
+		</dl>
+		<dl class="pairs pairs--rows">
+			<dt>{{ phrase('ban_remaining') }}</dt>
+			<dd>{$ban.remaining}</dd>
+		</dl>
+		<dl class="pairs pairs--rows">
+			<dt>{{ phrase('ban_type') }}</dt>
+			<dd>{$ban.Type.name}</dd>
+		</dl>
+	</div>
+</div>
+
+<div class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:foreach loop="$ban.Notes" value="$note">
+				<xf:if is="$canManage || $note.visible">
+					<article class="message message--simple {{ $note.visible ? '' : 'message--leadership' }}">
+						<div class="message-inner">
+							<div class="message-cell message-cell--user">
+								<xf:macro template="message_macros" name="user_info_simple" arg-user="{$note.User}" />
+							</div>
+							<div class="message-cell message-cell--main">
+								<div class="message-content">
+									<header class="message-attribution message-attribution--plain">
+										<ul class="listInline listInline--bullet">
+											<li class="message-attribution-user">
+												<xf:avatar user="$note.User" size="xxs" />
+												<h4 class="attribution"><xf:username user="$note.User" rich="true" /></h4>
+											</li>
+											<li><xf:date time="$note.timestamp" /></li>
+										</ul>
+									</header>
+
+									<article class="message-body">
+										{$note.note}
+
+										<xf:foreach loop="$note.data" key="$key" value="$value">
+											<dl class="pairs pairs--columns pairs--fixedSmall">
+												<dt>{$key}</dt>
+												<dd>{$value}</dd>
+											</dl>
+										</xf:foreach>
+
+										<xf:if is="$note.attach_count">
+											<xf:macro template="message_macros" name="attachments"
+													  arg-attachments="{$note.Attachments}"
+													  arg-message="{$note}"
+													  arg-canView="{{ true }}" />
+										</xf:if>
+									</article>
+								</div>
+							</div>
+						</div>
+					</article>
+				</xf:if>
+			</xf:foreach>
+		</div>
+	</div>
+</div>
+
+<div class="block">
+	<xf:if is="($canManage || $xf.visitor.user_id == $ban.ply_user_id) && $ban.remaining_time >= 0">
+		<xf:form action="{{ link('bans/reply', $ban) }}"
+			ajax="true"
+			draft="{{ link('bans/draft', $ban) }}"
+			class="block js-quickReply"
+			data-xf-init="attachment-manager quick-reply">
+
+			<div class="block-container">
+				<div class="block-body">
+					<xf:macro template="kieran_bans_macro" name="reply"
+						arg-attachmentData="{$attachmentData}"
+						arg-messageSelector=".js-message"
+						arg-showPreviewButton="{{ false }}"
+						arg-canManage="{$canManage}"/>
+				</div>
+			</div>
+		</xf:form>
+	</xf:if>
+</div>]]></template>
+  <template type="public" title="kieran_bans_view.less" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[.message {
+	
+	&--leadership {
+		background-color: #ffd0cb;
+
+		.message-userArrow::after {
+			border-right-color: #ffd0cb;	
+		}
+	}
+}
+
+.button--icon {
+	&--magic .button-text::before {
+		content: "\f0d0";
+	}
+	
+	&--gavel .button-text::before {
+		content: "\f0e3";
+	}
+	
+	&--eye .button-text::before {
+		content: "\f06e";
+	}
+}
+
+.button.button--green {
+	background: #2ecc71;
+    border-color: #2ecc47 #26b362 #26b362 #2ecc47;
+}]]></template>
+  <template type="public" title="kieran_bans_wrapper" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[<xf:sidenav>
+	<div class="block">
+		<div class="block-container">
+			<h3 class="block-header">{{ phrase('navigation') }}</h3>
+			<div class="block-body">
+				<a class="blockLink {{ $pageSelected == 'mybans' ? 'is-selected' : '' }}"
+				   href="/bans/"><i class="fa fa-envelope fa-fw" aria-hidden="true"></i>&nbsp;My Bans</a>
+				<xf:if is="$canViewBans">
+					<a class="blockLink {{ $pageSelected == 'created' ? 'is-selected' : '' }}"
+				   		href="/bans/created"><i class="fa fa-cog fa-fw" aria-hidden="true"></i>&nbsp;Created Bans</a>
+					<a class="blockLink {{ $pageSelected == 'manage' ? 'is-selected' : '' }}"
+				   		href="/bans/manage"><i class="fa fa-cogs fa-fw" aria-hidden="true"></i>&nbsp;All Bans</a>
+				</xf:if>
+			</div>
+		</div>
+	</div>
+</xf:sidenav>
+
+<xf:if is="$pageSelected != 'create' and $pageSelected != 'view'">
+	<xf:pageaction>
+		<xf:if is="$canCreate">
+			<xf:button class="button button--cta" href="{{ link('bans/create') }}" icon="write">{{ phrase('kieran_bans_create') }}</xf:button>
+		</xf:if>
+	</xf:pageaction>
+</xf:if>
+
+<xf:page option="sideNavTitle">{{ phrase('navigation') }}</xf:page>
+
+{$innerContent|raw}]]></template>
+</templates>

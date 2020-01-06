@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<routes>
+  <route route_type="admin" route_prefix="bans" controller="Kieran\Bans:Bans" context="bans"/>
+  <route route_type="admin" route_prefix="bans" sub_name="types" format="types/:str&lt;type_id&gt;" controller="Kieran\Bans:Types" context="bans"/>
+  <route route_type="public" route_prefix="bans" format=":int&lt;ban_id&gt;" controller="Kieran\Bans:Bans" context="bans"/>
+</routes>

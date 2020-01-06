@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<permissions>
+  <permission permission_group_id="bans" permission_id="bans_create" permission_type="flag" interface_group_id="bans" display_order="1"/>
+  <permission permission_group_id="bans" permission_id="bans_manage" permission_type="flag" interface_group_id="bans" display_order="3"/>
+  <permission permission_group_id="bans" permission_id="bans_view" permission_type="flag" interface_group_id="bans" display_order="2"/>
+</permissions>

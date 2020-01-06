@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phrases>
+  <phrase title="admin_navigation.bans" version_id="1000030" version_string="1.0.0 Beta"><![CDATA[Bans]]></phrase>
+  <phrase title="admin_navigation.bansTypes" version_id="1000030" version_string="1.0.0 Beta"><![CDATA[Ban Types]]></phrase>
+  <phrase title="ban_remaining" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Remaining time]]></phrase>
+  <phrase title="ban_type" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Ban type]]></phrase>
+  <phrase title="banned_ip" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Banned IP]]></phrase>
+  <phrase title="banned_uid" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Banned UID]]></phrase>
+  <phrase title="kieran_bans_appeal" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Appeal]]></phrase>
+  <phrase title="kieran_bans_bans" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Bans]]></phrase>
+  <phrase title="kieran_bans_create" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Create]]></phrase>
+  <phrase title="kieran_bans_created" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Created Bans]]></phrase>
+  <phrase title="kieran_bans_edit" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Edit Ban]]></phrase>
+  <phrase title="kieran_bans_leadership_only" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Leadership only]]></phrase>
+  <phrase title="kieran_bans_length" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Ban length]]></phrase>
+  <phrase title="kieran_bans_message_required" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Please add a message.]]></phrase>
+  <phrase title="kieran_bans_mybans" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[My Bans]]></phrase>
+  <phrase title="kieran_bans_player_ip" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Player IP]]></phrase>
+  <phrase title="kieran_bans_player_name" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Player name]]></phrase>
+  <phrase title="kieran_bans_player_uid" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Player UID]]></phrase>
+  <phrase title="kieran_bans_reason" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Ban reason]]></phrase>
+  <phrase title="kieran_bans_review" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Review Status]]></phrase>
+  <phrase title="kieran_bans_target_ip" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Target IP]]></phrase>
+  <phrase title="kieran_bans_target_name" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Target name]]></phrase>
+  <phrase title="kieran_bans_target_uid" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Target UID]]></phrase>
+  <phrase title="kieran_bans_type" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Ban type]]></phrase>
+  <phrase title="kieran_bans_uid_hint" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Steam 64 or 32]]></phrase>
+  <phrase title="kieran_bans_viewing" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Viewing Bans]]></phrase>
+  <phrase title="nav.bans" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Bans]]></phrase>
+  <phrase title="nav.bansCreate" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Create Ban]]></phrase>
+  <phrase title="nav.bansCreated" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Created Bans]]></phrase>
+  <phrase title="nav.bansManage" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[All Bans]]></phrase>
+  <phrase title="nav.bansMyBans" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[My Bans]]></phrase>
+  <phrase title="permission.bans_bans_create" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Create bans]]></phrase>
+  <phrase title="permission.bans_bans_manage" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Manage bans]]></phrase>
+  <phrase title="permission.bans_bans_view" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[View bans]]></phrase>
+  <phrase title="permission_interface.bans" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Ingame ban permissions]]></phrase>
+  <phrase title="reinstate" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Reinstate]]></phrase>
+</phrases>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<content_type_fields>
+  <field content_type="ban" field_name="attachment_handler_class">Kieran\Bans\Attachment\Ban</field>
+  <field content_type="ban" field_name="entity">Kieran\Bans:BanNote</field>
+</content_type_fields>
