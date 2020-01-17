@@ -25,6 +25,10 @@
   <phrase title="kieran_bans_target_name" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Target name]]></phrase>
   <phrase title="kieran_bans_target_uid" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Target UID]]></phrase>
   <phrase title="kieran_bans_type" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Ban type]]></phrase>
+  <phrase title="kieran_bans_type_id" version_id="1000070" version_string="1.0.0"><![CDATA[Type Id]]></phrase>
+  <phrase title="kieran_bans_types" version_id="1000070" version_string="1.0.0"><![CDATA[Types]]></phrase>
+  <phrase title="kieran_bans_types_add" version_id="1000070" version_string="1.0.0"><![CDATA[Add Type]]></phrase>
+  <phrase title="kieran_bans_types_edit" version_id="1000070" version_string="1.0.0"><![CDATA[Edit type]]></phrase>
   <phrase title="kieran_bans_uid_hint" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Steam 64 or 32]]></phrase>
   <phrase title="kieran_bans_viewing" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Viewing Bans]]></phrase>
   <phrase title="nav.bans" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Bans]]></phrase>
