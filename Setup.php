@@ -19,10 +19,10 @@ class Setup extends \XF\AddOn\AbstractSetup
 		{
 			$table->addColumn('ban_id', 'int')->autoIncrement();
 			$table->addColumn('server_ip', 'varchar', 55)->setDefault('website');
-			$table->addColumn('ply_id', 'bigint', 64);
-			$table->addColumn('ply_user_id', 'int', 11)->setDefault(0);
-			$table->addColumn('ply_ip', 'varchar', 55);
-			$table->addColumn('ply_name', 'varchar', 64);
+			$table->addColumn('admin_id', 'bigint', 64);
+			$table->addColumn('admin_user_id', 'int', 11)->setDefault(0);
+			$table->addColumn('admin_ip', 'varchar', 55);
+			$table->addColumn('admin_name', 'varchar', 64);
 			$table->addColumn('target_id', 'bigint', 64);
 			$table->addColumn('target_ip', 'varchar', 55);
 			$table->addColumn('target_name', 'varchar', 65);

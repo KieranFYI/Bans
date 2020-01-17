@@ -21,7 +21,7 @@ class Ban extends Entity
 
 	public function createFirst($message='') {
 		$note = $this->newNote();
-		$note->user_id = $this->ply_user_id;
+		$note->user_id = $this->admin_user_id;
 		$note->timestamp = $this->timestamp;
 		$note->data = [
 			'Target UID' => $this->getSteamid32(),
@@ -38,9 +38,9 @@ class Ban extends Entity
 
 	public function associateUser() {
 		$type = $this->getIdentityTypeRepo()->findIdentityType('steam');
-		$identity = $this->getIdentityRepo()->findIdentityByValueByType($this->ply_id, $type->identity_type_id);
+		$identity = $this->getIdentityRepo()->findIdentityByValueByType($this->admin_id, $type->identity_type_id);
 		if ($identity !== null && $identity->user_id > 0) {
-			$this->ply_user_id = $identity->user_id;
+			$this->admin_user_id = $identity->user_id;
 			$this->save();
 		}
 	}
@@ -116,11 +116,11 @@ class Ban extends Entity
 
 	public function getCreatedBy() {
 
-		if (!$ban->ply_user_id) {
+		if (!$ban->admin_user_id) {
 			$this->associateUser();
 		}
 
-		return $this->em()->find('XF:User', $this->ply_user_id);
+		return $this->em()->find('XF:User', $this->admin_user_id);
 	}
 
 	public function getStatusIcon() {
@@ -163,10 +163,10 @@ class Ban extends Entity
         $structure->columns = [
 			'ban_id' =>  ['type' => self::UINT, 'autoIncrement' => true, 'nullable' => false, 'changeLog' => false],
 			'server_ip' => ['type' => self::STR, 'maxLength' => 55, 'default' => 'website'],
-			'ply_id' => ['type' => self::BINARY, 'maxLength' => 64],
-			'ply_user_id' => ['type' => self::UINT, 'maxLength' => 11, 'default' => 0],
-			'ply_ip' => ['type' => self::STR, 'maxLength' => 55],
-			'ply_name' => ['type' => self::STR, 'maxLength' => 64],
+			'admin_id' => ['type' => self::BINARY, 'maxLength' => 64],
+			'admin_user_id' => ['type' => self::UINT, 'maxLength' => 11, 'default' => 0],
+			'admin_ip' => ['type' => self::STR, 'maxLength' => 55],
+			'admin_name' => ['type' => self::STR, 'maxLength' => 64],
 			'target_id' => ['type' => self::BINARY, 'maxLength' => 64, 'required' => true],
 			'target_ip' => ['type' => self::STR, 'maxLength' => 55, 'default' => '0.0.0.0'],
 			'target_name' => ['type' => self::STR, 'maxLength' => 65, 'required' => true],

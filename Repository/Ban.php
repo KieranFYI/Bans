@@ -67,12 +67,12 @@ class Ban extends Repository
 	private function buildQuery($filters) {
 		$finder = $this->finder('Kieran\Bans:Ban')->order('ban_id', 'desc');
 
-		if (isset($filters['ply_user_id'])) {
-			$finder->where('ply_user_id', $filters['ply_user_id']);
+		if (isset($filters['admin_user_id'])) {
+			$finder->where('admin_user_id', $filters['admin_user_id']);
 		}
 		
-		if (isset($filters['ply_id'])) {
-			$finder->where('ply_id', $filters['ply_id']);
+		if (isset($filters['admin_id'])) {
+			$finder->where('admin_id', $filters['admin_id']);
 		}
 
 		if (isset($filters['banned_uid'])) {

@@ -184,7 +184,7 @@
 	<div class="menu-row menu-row--separated">
 		{{ phrase('admin:') }}
 		<div class="u-inputSpacer">
-			<xf:textbox name="ply_user" value="{{ $adminFilter ? $adminFilter.username : '' }}" ac="single"
+			<xf:textbox name="admin_user" value="{{ $adminFilter ? $adminFilter.username : '' }}" ac="single"
 				maxlength="{{ max_length($xf.visitor, 'username') }}" />
 		</div>
 	</div>
@@ -615,7 +615,7 @@
 </div>
 
 <div class="block">
-	<xf:if is="($canManage || $xf.visitor.user_id == $ban.ply_user_id) && $ban.remaining_time >= 0">
+	<xf:if is="($canManage || $xf.visitor.user_id == $ban.admin_user_id) && $ban.remaining_time >= 0">
 		<xf:form action="{{ link('bans/reply', $ban) }}"
 			ajax="true"
 			draft="{{ link('bans/draft', $ban) }}"

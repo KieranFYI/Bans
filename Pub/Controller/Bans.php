@@ -38,7 +38,7 @@ class Bans extends \XF\Pub\Controller\AbstractController
 		$perPage = 25;
 
 		$filters = $this->getFilterInput();
-		$filters['ply_user_id'] = \XF::visitor()->user_id;
+		$filters['admin_user_id'] = \XF::visitor()->user_id;
 		$finder = $this->getBanRepo()->findPaged($filters, $page, $perPage);
 		$total = $finder->total();
 
@@ -224,8 +224,8 @@ class Bans extends \XF\Pub\Controller\AbstractController
 	protected function getFilterInput() {
 
 		$input = $this->filter([
-			'ply_user' => 'str',
-			'ply_user_id' => 'uint',
+			'admin_user' => 'str',
+			'admin_user_id' => 'uint',
 			'banned_uid' => 'str',
 			'status' => 'array',
 			'type' => 'array',
@@ -234,12 +234,12 @@ class Bans extends \XF\Pub\Controller\AbstractController
 			'direction' => 'str',
 		]);
 
-		if ($input['ply_user_id']) {
-			$filters['ply_user_id'] = $input['ply_user_id'];
-		} else if ($input['ply_user']) {
-			$user = $this->em()->findOne('XF:User', ['username' => $input['ply_user']]);
+		if ($input['admin_user_id']) {
+			$filters['admin_user_id'] = $input['admin_user_id'];
+		} else if ($input['admin_user']) {
+			$user = $this->em()->findOne('XF:User', ['username' => $input['admin_user']]);
 			if ($user) {
-				$filters['ply_user_id'] = $user->user_id;
+				$filters['admin_user_id'] = $user->user_id;
 			}
 		}
 
@@ -297,10 +297,10 @@ class Bans extends \XF\Pub\Controller\AbstractController
 
 		$visitor = \XF::visitor();
 		$form->basicEntitySave($ban, [
-			'ply_name' => $visitor->username,
-			'ply_id' => $this->getPrimarySteamID(),
-			'ply_user_id' => $visitor->user_id,
-			'ply_ip' => $this->app()->request()->getIp(),
+			'admin_name' => $visitor->username,
+			'admin_id' => $this->getPrimarySteamID(),
+			'admin_user_id' => $visitor->user_id,
+			'admin_ip' => $this->app()->request()->getIp(),
 		]);
 
 		return $form;
@@ -385,7 +385,7 @@ class Bans extends \XF\Pub\Controller\AbstractController
 			$ban->createFirst();
 		}
 
-		if ($ban->ply_user_id != \XF::visitor()->user_id && !$this->canView()) {
+		if ($ban->admin_user_id != \XF::visitor()->user_id && !$this->canView()) {
 			return $this->noPermission();
 		}
 
@@ -445,7 +445,7 @@ class Bans extends \XF\Pub\Controller\AbstractController
 
 	public function actionAppeal(ParameterBag $params) {
 		$ban = $this->assertBanExists($params->ban_id);
-		if ($ban->ply_user_id != \XF::visitor()->user_id) {
+		if ($ban->admin_user_id != \XF::visitor()->user_id) {
 			return $this->noPermission();
 		}
 
