@@ -493,7 +493,16 @@ class Bans extends \XF\Pub\Controller\AbstractController
 			return 0;
 		}
 
-		$type = $this->getIdentityTypeRepo()->findIdentityType('steam');
+        if ($this->getIdentityTypeRepo() == null) {
+            return 0;
+        }
+
+        $type = $this->getIdentityTypeRepo()->findIdentityType('steam');
+        
+        if ($type == null) {
+            return 0;
+        }
+
 		$identities = $type->getIdentitiesForUser($visitor->user_id);
 		
 		foreach ($identities as $key => $value) {
@@ -512,8 +521,17 @@ class Bans extends \XF\Pub\Controller\AbstractController
 		{
 			return [];
 		}
+ 
+ 
+        if ($this->getIdentityTypeRepo() == null) {
+            return [];
+        }
 
-		$type = $this->getIdentityTypeRepo()->findIdentityType('steam');
+        $type = $this->getIdentityTypeRepo()->findIdentityType('steam');
+        
+        if ($type == null) {
+            return [];
+        }
 		$identities = $type->getIdentitiesForUser($visitor->user_id);
 		
 		$ids = [];

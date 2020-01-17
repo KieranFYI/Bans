@@ -37,7 +37,16 @@ class Ban extends Entity
 	}
 
 	public function associateUser() {
-		$type = $this->getIdentityTypeRepo()->findIdentityType('steam');
+        if ($this->getIdentityTypeRepo() == null) {
+            return;
+        }
+
+        $type = $this->getIdentityTypeRepo()->findIdentityType('steam');
+        
+        if ($type == null) {
+            return;
+        }
+        
 		$identity = $this->getIdentityRepo()->findIdentityByValueByType($this->admin_id, $type->identity_type_id);
 		if ($identity !== null && $identity->user_id > 0) {
 			$this->admin_user_id = $identity->user_id;

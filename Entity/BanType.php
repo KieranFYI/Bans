@@ -27,12 +27,4 @@ class BanType extends Entity
         
         return $structure;
     }
-
-	protected function getIdentityRepo() {
-		return $this->repository('Kieran\Identity:Identity');
-	}
-
-	protected function getIdentityTypeRepo() {
-		return $this->repository('Kieran\Identity:IdentityType');
-	}
 }
