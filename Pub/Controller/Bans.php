@@ -443,23 +443,6 @@ class Bans extends \XF\Pub\Controller\AbstractController
 		return $this->redirect($this->buildLink('bans', $ban));
 	}
 
-	public function actionAppeal(ParameterBag $params) {
-		$ban = $this->assertBanExists($params->ban_id);
-		if ($ban->admin_user_id != \XF::visitor()->user_id) {
-			return $this->noPermission();
-		}
-
-		$type = $this->finder('Kieran\Support:TicketType')->where('name', 'Ban Appeal')->fetchOne();
-
-		$viewParams = [
-			'ban' => $ban,
-			'type' => $type,
-			'attachmentData' => $this->getTicketReplyAttachmentData($type),
-		];
-
-		return $this->view('Kieran\Bans:Ban\Appeal', 'kieran_bans_appeal', $viewParams);
-	}
-
 	public function canCreate() {
 		$visitor = \XF::visitor();
 
@@ -500,16 +483,6 @@ class Bans extends \XF\Pub\Controller\AbstractController
 		/** @var \XF\Repository\Attachment $attachmentRepo */
 		$attachmentRepo = $this->repository('XF:Attachment');
 		return $attachmentRepo->getEditorData('ban', $ban, $attachmentHash);
-	}
-
-	protected function getTicketReplyAttachmentData($ticket)
-	{
-		/** @var \XF\Entity\Forum $forum */
-		$attachmentHash = $ticket->draft_reply->attachment_hash;
-
-		/** @var \XF\Repository\Attachment $attachmentRepo */
-		$attachmentRepo = $this->repository('XF:Attachment');
-		return $attachmentRepo->getEditorData('ticket_message', $ticket, $attachmentHash);
 	}
 
 	protected function getPrimarySteamID() {

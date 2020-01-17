@@ -3,7 +3,6 @@
 namespace Kieran\Bans\Admin\Controller;
 
 use XF\Mvc\ParameterBag;
-use Kieran\Support\Entity\TicketType;
 
 class Types extends \XF\Admin\Controller\AbstractController
 {

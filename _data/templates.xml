@@ -54,35 +54,13 @@
 		<xf:submitrow icon="save" sticky="true" />
 	</xf:form>
 </div>]]></template>
-  <template type="public" title="kieran_bans_appeal" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[<xf:title>{{ phrase('kieran_bans_appeal:') }} #{{ $ban.ban_id }}</xf:title>
-<xf:breadcrumb href="{{ link('bans') }}">{{ phrase('kieran_bans_bans') }}</xf:breadcrumb>
-<xf:breadcrumb href="{{ link('bans/appeal') }}">{{ phrase('kieran_bans_appeal:') }} #{{ $ban.ban_id }}</xf:breadcrumb>
-
-<div class="block">
-	<xf:form action="{{ link('/support/tickets/create') }}" ajax="true" class="block-container" novalidate="novalidate">
-		<div class="block-body">
-			
-			<xf:hiddenval name="type">{{ $type.type_id }}</xf:hiddenval>
-			<xf:hiddenval name="ticket_title">Ban #{{ $ban.ban_id }} appeal</xf:hiddenval>
-			
-			<xf:macro template="kieran_support_ticket_create_macro" name="body"
-					  arg-attachmentData="{$attachmentData}"
-					  arg-messageSelector=".js-message"
-					  arg-submitText="{{ phrase('kieran_bans_appeal') }}"/>
-
-			<xf:hiddenval name="apply">1</xf:hiddenval>
-				
-		</div>
-	</xf:form>
-</div>]]></template>
-  <template type="public" title="kieran_bans_created" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[<xf:title>{{ phrase('kieran_bans_created') }}</xf:title>
+  <template type="public" title="kieran_bans_created" version_id="1000030" version_string="1.0.0 Beta"><![CDATA[<xf:title>{{ phrase('kieran_bans_created') }}</xf:title>
 <xf:description>A list of all your created bans</xf:description>
 
 <xf:wrap template="kieran_bans_wrapper">
 	<xf:set var="$pageSelected" value="created" />
 </xf:wrap>
 
-<xf:breadcrumb href="{{ link('bans') }}">{{ phrase('kieran_bans_bans') }}</xf:breadcrumb>
 <xf:breadcrumb href="{{ link('bans/created') }}">{{ phrase('kieran_bans_created') }}</xf:breadcrumb>
 
 <xf:if is="($total / $perPage) >= 1">
@@ -164,7 +142,7 @@
 		</div>
 	</xf:form>
 </div>]]></template>
-  <template type="public" title="kieran_bans_filters" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[<xf:form action="{{ link('bans/filters') }}">
+  <template type="public" title="kieran_bans_filters" version_id="1000030" version_string="1.0.0 Beta"><![CDATA[<xf:form action="{{ link('bans/filters') }}">
 	
 	<div class="menu-row menu-row--separated">
 		{{ phrase('banned_uid:') }}
@@ -204,7 +182,7 @@
 		<xf:select name="type[]" size="2" multiple="multiple" value="">
 			<xf:option />
 			<xf:foreach loop="$types" key="$key" value="$type">
-				<xf:option value="{$key}">{{ $type }}</xf:option>
+				<xf:option value="{$type.type_id}">{{ $type.name }}</xf:option>
 			</xf:foreach>
 		</xf:select>
 	</div>
@@ -246,7 +224,6 @@
 	arg-bans="!"
 	arg-bannedBy="{{ false }}"
 	arg-approvalStatus="{{ false }}"
-	arg-appeal="{{ false }}" 
 	arg-filters="{{ false }}" 
 	arg-links="{{ false }}" >
 	<div class="block">
@@ -283,9 +260,6 @@
 								<xf:if is="$bannedBy">
 									<xf:cell>Banned by</xf:cell>
 								</xf:if>
-								<xf:if is="$appeal">
-									<xf:cell></xf:cell>
-								</xf:if>
 							</xf:datarow>
 							<xf:foreach loop="$bans" value="$ban">
 								<xf:datarow rowclass="dataList-row">
@@ -300,13 +274,6 @@
 									<xf:cell href="{{ $links ? link('bans', $ban) : '' }}" class="contentRow-minor">{$ban.remaining}</xf:cell>
 									<xf:if is="$bannedBy">
 										<xf:cell class="contentRow"><xf:username user="$ban.created_by" rich="true" /></xf:cell>
-									</xf:if>
-									<xf:if is="$appeal">	
-										<xf:cell class="dataList-cell--min dataList-cell--alt">
-											<xf:if is="$ban.remaining_time >= 0">
-												<xf:button class="button" href="{{ link('bans/appeal', $ban) }}">{{ phrase('kieran_bans_appeal') }}</xf:button>
-											</xf:if>
-										</xf:cell>
 									</xf:if>
 								</xf:datarow>
 							</xf:foreach>
@@ -448,15 +415,14 @@
 		</div>
 	</div>
 </xf:macro>]]></template>
-  <template type="public" title="kieran_bans_manage" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[<xf:title>{{ phrase('kieran_bans_bans') }}</xf:title>
+  <template type="public" title="kieran_bans_manage" version_id="1000030" version_string="1.0.0 Beta"><![CDATA[<xf:title>{{ phrase('kieran_bans_bans') }}</xf:title>
 <xf:description>A list of all bans</xf:description>
 
 <xf:wrap template="kieran_bans_wrapper">
 	<xf:set var="$pageSelected" value="manage" />
 </xf:wrap>
 
-<xf:breadcrumb href="{{ link('bans') }}">{{ phrase('kieran_bans_bans') }}</xf:breadcrumb>
-<xf:breadcrumb href="{{ link('bans/manage') }}">{{ phrase('kieran_bans_manage') }}</xf:breadcrumb>
+<xf:breadcrumb href="{{ link('bans/manage') }}">{{ phrase('kieran_bans_all') }}</xf:breadcrumb>
 
 <xf:if is="($total / $perPage) >= 1">
 	<div class="block-outer">
@@ -475,7 +441,7 @@
 		  arg-approvalStatus="{{ true }}"
 		  arg-filters="{$filters}"
 		  arg-links="{{ true }}" />]]></template>
-  <template type="public" title="kieran_bans_mybans" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[<xf:title>{{ phrase('kieran_bans_mybans') }}</xf:title>
+  <template type="public" title="kieran_bans_mybans" version_id="1000030" version_string="1.0.0 Beta"><![CDATA[<xf:title>{{ phrase('kieran_bans_mybans') }}</xf:title>
 <xf:description>A list of all your bans</xf:description>
 
 <xf:wrap template="kieran_bans_wrapper">
@@ -484,7 +450,7 @@
 
 <xf:breadcrumb href="{{ link('bans') }}">{{ phrase('kieran_bans_mybans') }}</xf:breadcrumb>
 
-<xf:macro template="kieran_bans_list" name="kieran_bans_list" arg-bans="{$bans}" arg-appeal="{{ true }}" />]]></template>
+<xf:macro template="kieran_bans_list" name="kieran_bans_list" arg-bans="{$bans}" />]]></template>
   <template type="public" title="kieran_bans_review" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[<xf:title>{{ phrase('kieran_bans_review:') }} #{{ $ban.ban_id }}</xf:title>
 <xf:breadcrumb href="{{ link('bans') }}">{{ phrase('kieran_bans_bans') }}</xf:breadcrumb>
 <xf:breadcrumb href="{{ link('bans/review', $ban) }}">{{ phrase('kieran_bans_review:') }} #{{ $ban.ban_id }}</xf:breadcrumb>
@@ -663,18 +629,18 @@
 	background: #2ecc71;
     border-color: #2ecc47 #26b362 #26b362 #2ecc47;
 }]]></template>
-  <template type="public" title="kieran_bans_wrapper" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[<xf:sidenav>
+  <template type="public" title="kieran_bans_wrapper" version_id="1000030" version_string="1.0.0 Beta"><![CDATA[<xf:sidenav>
 	<div class="block">
 		<div class="block-container">
 			<h3 class="block-header">{{ phrase('navigation') }}</h3>
 			<div class="block-body">
 				<a class="blockLink {{ $pageSelected == 'mybans' ? 'is-selected' : '' }}"
-				   href="/bans/"><i class="fa fa-envelope fa-fw" aria-hidden="true"></i>&nbsp;My Bans</a>
+				   href="/bans/"><i class="fa fa-envelope fa-fw" aria-hidden="true"></i>&nbsp;{{ phrase('kieran_bans_mybans') }}</a>
 				<xf:if is="$canViewBans">
 					<a class="blockLink {{ $pageSelected == 'created' ? 'is-selected' : '' }}"
-				   		href="/bans/created"><i class="fa fa-cog fa-fw" aria-hidden="true"></i>&nbsp;Created Bans</a>
+				   		href="/bans/created"><i class="fa fa-cog fa-fw" aria-hidden="true"></i>&nbsp;{{ phrase('kieran_bans_created') }}</a>
 					<a class="blockLink {{ $pageSelected == 'manage' ? 'is-selected' : '' }}"
-				   		href="/bans/manage"><i class="fa fa-cogs fa-fw" aria-hidden="true"></i>&nbsp;All Bans</a>
+				   		href="/bans/manage"><i class="fa fa-cogs fa-fw" aria-hidden="true"></i>&nbsp;{{ phrase('kieran_bans_all') }}</a>
 				</xf:if>
 			</div>
 		</div>

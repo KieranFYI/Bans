@@ -6,6 +6,7 @@
   <phrase title="ban_type" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Ban type]]></phrase>
   <phrase title="banned_ip" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Banned IP]]></phrase>
   <phrase title="banned_uid" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Banned UID]]></phrase>
+  <phrase title="kieran_bans_all" version_id="1000030" version_string="1.0.0 Beta"><![CDATA[All Bans]]></phrase>
   <phrase title="kieran_bans_appeal" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Appeal]]></phrase>
   <phrase title="kieran_bans_bans" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Bans]]></phrase>
   <phrase title="kieran_bans_create" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Create]]></phrase>
