@@ -550,7 +550,10 @@
 									</header>
 
 									<article class="message-body">
-										{$note.note}
+										
+										<xf:if is="$note.note">
+											{{ bb_code($note.note, 'ban_note', $note.User) }}
+										</xf:if>
 
 										<xf:foreach loop="$note.data" key="$key" value="$value">
 											<dl class="pairs pairs--columns pairs--fixedSmall">
