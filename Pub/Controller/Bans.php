@@ -350,7 +350,7 @@ class Bans extends \XF\Pub\Controller\AbstractController
 	{
 		$ban = $this->assertBanExists($params->ban_id);
 
-		if (!$this->canManage() && $ban->user_id != \XF::visitor()->user_id) {
+		if (!$this->canManage() && $ban->admin_user_id != \XF::visitor()->user_id) {
 			return $this->noPermission();
 		}
 
