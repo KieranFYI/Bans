@@ -125,7 +125,7 @@ class Ban extends Entity
 
 	public function getCreatedBy() {
 
-		if (!$ban->admin_user_id) {
+		if (!$this->admin_user_id) {
 			$this->associateUser();
 		}
 
