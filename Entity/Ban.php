@@ -1,7 +1,9 @@
 <?php
 
 namespace Kieran\Bans\Entity;
-    
+	
+use XF;
+use XF\Draft;
 use XF\Mvc\Entity\Entity;
 use XF\Mvc\Entity\Structure;
 
@@ -9,7 +11,7 @@ class Ban extends Entity
 {
 
 	public function canView() {
-		$visitor = \XF::visitor();
+		$visitor = XF::visitor();
 
 		if (!$visitor->user_id)
 		{
@@ -42,10 +44,17 @@ class Ban extends Entity
         }
 
         $type = $this->getIdentityTypeRepo()->findIdentityType('steam');
-        
         if ($type == null) {
             return;
-        }
+		}
+		
+		if ($this->server_ip === $this->admin_ip) {
+			if (XF::options()->console_user > 0) {
+				$this->admin_user_id = XF::options()->console_user;
+				$this->save();
+			}
+			return;
+		}
         
 		$identity = $this->getIdentityRepo()->findIdentityByValueByType($this->admin_id, $type->identity_type_id);
 		if ($identity !== null && $identity->user_id > 0) {
@@ -55,7 +64,7 @@ class Ban extends Entity
 	}
 
 	public function newNote() {
-		$visitor = \XF::visitor();
+		$visitor = XF::visitor();
 		if (!$visitor->user_id) {
 			return null;
 		}
@@ -80,7 +89,7 @@ class Ban extends Entity
 	
 	public function getDraftReply()
 	{
-		return \XF\Draft::createFromEntity($this, 'DraftReplies');
+		return Draft::createFromEntity($this, 'DraftReplies');
 	}
 
 	public function getRemaining() {
@@ -184,7 +193,7 @@ class Ban extends Entity
 			'ban_status' => ['type' => self::UINT, 'maxLength' => 1, 'default' => 0],
 			'type_id' => ['type' => self::STR, 'required' => true, 'nullable' => false, 'maxLength' => 25],
 			'ban_review' => ['type' => self::UINT, 'maxLength' => 1, 'default' => 0],
-			'timestamp' => ['type' => self::UINT, 'default' => \XF::$time],
+			'timestamp' => ['type' => self::UINT, 'default' => XF::$time],
         ];
 
         $structure->getters = [

@@ -36,6 +36,10 @@
   <phrase title="nav.bansCreated" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Created Bans]]></phrase>
   <phrase title="nav.bansManage" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[All Bans]]></phrase>
   <phrase title="nav.bansMyBans" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[My Bans]]></phrase>
+  <phrase title="option.console_user" version_id="1000070" version_string="1.0.0"><![CDATA[Console User]]></phrase>
+  <phrase title="option_explain.console_user" version_id="1000070" version_string="1.0.0"><![CDATA[The user to set for console bans]]></phrase>
+  <phrase title="option_group.bans" version_id="1000070" version_string="1.0.0"><![CDATA[Bans]]></phrase>
+  <phrase title="option_group_description.bans" version_id="1000070" version_string="1.0.0"><![CDATA[]]></phrase>
   <phrase title="permission.bans_bans_create" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Create bans]]></phrase>
   <phrase title="permission.bans_bans_manage" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[Manage bans]]></phrase>
   <phrase title="permission.bans_bans_view" version_id="1000000" version_string="1.0.0 Alpha"><![CDATA[View bans]]></phrase>
