@@ -162,9 +162,9 @@ class Bans extends \XF\Pub\Controller\AbstractController
 			if ($ban->ban_review != $input) {
 
 				$message = trim($this->plugin('XF:Editor')->fromInput('message'));
-				if (!strlen($message)) {
+				/*if (!strlen($message)) {
 					throw $this->exception($this->notFound(\XF::phrase('kieran_bans_message_required')));
-				}
+				}*/
 
 				$ban->ban_review = $input;
 				$ban->save();
@@ -295,13 +295,15 @@ class Bans extends \XF\Pub\Controller\AbstractController
 
 		$form->basicEntitySave($ban, $input['ban']);
 
-		$visitor = \XF::visitor();
-		$form->basicEntitySave($ban, [
-			'admin_name' => $visitor->username,
-			'admin_id' => $this->getPrimarySteamID(),
-			'admin_user_id' => $visitor->user_id,
-			'admin_ip' => $this->app()->request()->getIp(),
-		]);
+		if ($ban->isInsert()) {
+			$visitor = \XF::visitor();
+			$form->basicEntitySave($ban, [
+				'admin_name' => $visitor->username,
+				'admin_id' => $this->getPrimarySteamID(),
+				'admin_user_id' => $visitor->user_id,
+				'admin_ip' => $this->app()->request()->getIp(),
+			]);
+		}
 
 		return $form;
 	}
