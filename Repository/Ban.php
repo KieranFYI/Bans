@@ -33,6 +33,10 @@ class Ban extends Repository
 			],
 			[
 				'time' => 20160,
+				'label' => '2 Weeks',
+			],
+			[
+				'time' => 30240,
 				'label' => '3 Weeks',
 			],
 			[
